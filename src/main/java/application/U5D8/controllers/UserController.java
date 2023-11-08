@@ -20,8 +20,9 @@ public class UserController {
 
     @GetMapping("")
     public Page<User> getAllUser(@RequestParam(defaultValue = "0")int page ,
-                                 @RequestParam(defaultValue = "10")int size){
-        return usersService.getAllUser(page , size);
+                                 @RequestParam(defaultValue = "10")int size,
+                                 @RequestParam(defaultValue = "id")String order){
+        return usersService.getAllUser(page , size , order);
     }
 
     @GetMapping("/{id}")
