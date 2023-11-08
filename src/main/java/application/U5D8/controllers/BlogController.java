@@ -1,6 +1,7 @@
 package application.U5D8.controllers;
 
 import application.U5D8.entities.Blog;
+import application.U5D8.entities.PostBlog;
 import application.U5D8.services.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,7 +33,7 @@ public class BlogController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public Blog saveBlog(@RequestBody Blog body){
+    public Blog saveBlog(@RequestBody PostBlog body){
         return blogService.save(body);
     }
 

@@ -7,6 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
+@Builder(builderClassName = "buildBuilder")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Blog {
@@ -22,6 +23,16 @@ public class Blog {
     @ManyToOne
     @JoinColumn(nullable = false)
     private User utente;
+
+
+    public static class buildBuilder{
+        private BlogCategory blogCategory;
+        private String titolo = null;
+        private String cover = null;
+        private String contenuto = null;
+        private int tempoDiLettura;
+        private User utente = null;
+    }
 
 
     @Override
