@@ -2,14 +2,12 @@ package application.U5D8.services;
 
 import application.U5D8.entities.User;
 import application.U5D8.exceptions.NotUserFoundException;
-import application.U5D8.repositories.BlogRepository;
 import application.U5D8.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
-import java.util.ListIterator;
 
 
 @Service
@@ -20,6 +18,7 @@ public class UsersService {
 
 
     public User save(User body){
+        body.setUserPicture("https://ui-avatars.com/api/?name=" + body.getNome() + "+" + body.getCognome());
         userRepo.save(body);
         return body;
     }
@@ -40,41 +39,22 @@ public class UsersService {
 
 
 
-    public void findByIdAndDelete(int id){
-
-        ListIterator<User> iterator = this.users.listIterator();
-        while (iterator.hasNext()){
-            User current = iterator.next();
-            if (current.getId() == id){
-                iterator.remove();
-                System.out.println("utente con id " + id + " è stato rimosso");
-            }
-
-        }
-
-
+    public void findByIdAndDelete(int id) throws NotUserFoundException{
+        User found = findById(id);
+        userRepo.delete(found);
     }
 
 
-    public User findByIdAndUpdate(int id , User body){
-        User found = null;
-        for(User user:this.users){
-            if(user.getId() == id){
-                found = user;
+    public User findByIdAndUpdate(int id , User body) throws NotUserFoundException{
+        User found = findById(id);
                 found.setNome(body.getNome() != null ? body.getNome() : found.getNome());
                 found.setCognome(body.getCognome()  != null ? body.getCognome() : found.getCognome());
                 found.setUserPicture("https://ui-avatars.com/api/?name=" + body.getNome() + "&surname=" + body.getCognome() );
                 found.setEmail(body.getEmail()  != null ? body.getEmail() : found.getEmail());
                 found.setDataDiNascita(body.getDataDiNascita() != null ? body.getDataDiNascita() : found.getDataDiNascita());
-            }
-        }
-        if(found == null){
-            throw new NotUserFoundException(id);
-        }else {
-            System.out.println("utente modificato corretamente");
-            return found;
-        }
-
+                found.setBlogs(found.getBlogs());
+                userRepo.save(found);
+                return found;
     }
 
 

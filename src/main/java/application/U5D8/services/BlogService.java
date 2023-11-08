@@ -1,16 +1,14 @@
 package application.U5D8.services;
 
 import application.U5D8.entities.Blog;
-import application.U5D8.exceptions.NotUserFoundException;
+import application.U5D8.exceptions.NotBlogFoundException;
 import application.U5D8.repositories.BlogRepository;
-import application.U5D8.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Random;
+
 
 
 
@@ -22,66 +20,36 @@ public class BlogService {
 
 
     public Blog save(Blog body){
-        Random rnd = new Random();
-        body.setId(rnd.nextInt(1 , 1000));
-        this.blogs.add(body);
+        body.setCover("https://picsum.photos/200/300");
+        blogRepo.save(body);
         return body;
     }
 
 
     public List<Blog> getAllBlogs(){
-        return this.blogs;
+        return blogRepo.findAll();
     }
 
 
 
-    public Blog findById(int id){
-        Blog found = null;
-        for(Blog blog : this.blogs){
-            if(blog.getId() == id){
-                found = blog;
-            }
-        }
-        if (found == null){
-            throw new NotUserFoundException(id);
-        }else {
-            return found;
-        }
+    public Blog findById(int id) throws NotBlogFoundException{
+      return blogRepo.findById(id).orElseThrow(() -> new NotBlogFoundException(id));
     }
-    public void findByIdAndDelete(int id){
-
-        ListIterator<Blog> iterator = this.blogs.listIterator();
-        while (iterator.hasNext()){
-            Blog current = iterator.next();
-            if (current.getId() == id){
-                iterator.remove();
-                System.out.println("il blog con id " + id + " è stato rimosso");
-            }
-
-        }
-
-
+    public void findByIdAndDelete(int id) throws NotBlogFoundException{
+        Blog found = findById(id);
+        blogRepo.delete(found);
     }
 
 
-    public Blog findByIdAndUpdate(int id , Blog body){
-        Blog found = null;
-        for(Blog blog:this.blogs){
-            if(blog.getId() == id){
-                found = blog;
+    public Blog findByIdAndUpdate(int id , Blog body) throws NotBlogFoundException{
+         Blog found = findById(id);
                 found.setBlogCategory(body.getBlogCategory());
                 found.setCover(body.getCover());
                 found.setContenuto(body.getContenuto());
                 found.setTitolo(body.getTitolo());
                 found.setTempoDiLettura(body.getTempoDiLettura());
-            }
-        }
-        if(found == null){
-            throw new NotUserFoundException(id);
-        }else {
-            System.out.println("blog modificato corretamente");
-            return found;
-        }
+                found.setUtente(found.getUtente());
+                return blogRepo.save(found);
 
     }
 
