@@ -8,7 +8,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,10 +20,18 @@ public class User {
         private String email;
         private LocalDate dataDiNascita;
         private String userPicture;
-        @OneToMany(mappedBy = "utente")
-        @ToString.Exclude
+        @OneToMany
         private List<Blog> blogs;
 
-
-
+        @Override
+        public String toString() {
+                return "User{" +
+                        "id=" + id +
+                        ", nome='" + nome + '\'' +
+                        ", cognome='" + cognome + '\'' +
+                        ", email='" + email + '\'' +
+                        ", dataDiNascita=" + dataDiNascita +
+                        ", userPicture='" + userPicture + '\'' +
+                        '}';
+        }
 }

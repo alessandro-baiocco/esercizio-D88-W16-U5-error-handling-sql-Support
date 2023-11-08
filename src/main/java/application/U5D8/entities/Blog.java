@@ -6,7 +6,6 @@ import lombok.*;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +20,18 @@ public class Blog {
     private String contenuto;
     private int tempoDiLettura;
     @ManyToOne
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(nullable = false)
     private User utente;
 
+
+    @Override
+    public String toString() {
+        return "Blog{" +
+                "id=" + id +
+                ", blogCategory=" + blogCategory +
+                ", titolo='" + titolo + '\'' +
+                ", cover='" + cover + '\'' +
+                ", contenuto='" + contenuto + '\'' +
+                ", tempoDiLettura=" + tempoDiLettura;
+    }
 }

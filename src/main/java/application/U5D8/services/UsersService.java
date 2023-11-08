@@ -4,6 +4,9 @@ import application.U5D8.entities.User;
 import application.U5D8.exceptions.NotUserFoundException;
 import application.U5D8.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -32,8 +35,9 @@ public class UsersService {
 
 
 
-    public List<User> getAllUser(){
-        return userRepo.findAll();
+    public Page<User> getAllUser(int page , int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return userRepo.findAll(pageable);
     }
 
 
@@ -52,7 +56,6 @@ public class UsersService {
                 found.setUserPicture("https://ui-avatars.com/api/?name=" + body.getNome() + "&surname=" + body.getCognome() );
                 found.setEmail(body.getEmail()  != null ? body.getEmail() : found.getEmail());
                 found.setDataDiNascita(body.getDataDiNascita() != null ? body.getDataDiNascita() : found.getDataDiNascita());
-                found.setBlogs(found.getBlogs());
                 userRepo.save(found);
                 return found;
     }

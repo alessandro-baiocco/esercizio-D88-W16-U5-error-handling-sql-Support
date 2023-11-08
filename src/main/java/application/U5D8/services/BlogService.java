@@ -21,6 +21,7 @@ public class BlogService {
 
     public Blog save(Blog body){
         body.setCover("https://picsum.photos/200/300");
+        System.out.println(body.getUtente());
         blogRepo.save(body);
         return body;
     }
