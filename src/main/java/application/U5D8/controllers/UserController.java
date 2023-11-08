@@ -1,6 +1,7 @@
 package application.U5D8.controllers;
 
 
+import application.U5D8.entities.Blog;
 import application.U5D8.entities.User;
 import application.U5D8.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,12 @@ public class UserController {
         return " client error response code indicates that the server refuses " +
                 "to brew coffee because it is, permanently, a teapot. A" +
                 " combined coffee/tea pot that is temporarily out of coffee";
+    }
+
+
+    @GetMapping("/{id}/blogs")
+    public List<Blog> getUserBlog(@PathVariable int id){
+        return usersService.getUserBlog(id);
     }
 
 

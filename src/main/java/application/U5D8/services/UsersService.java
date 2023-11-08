@@ -1,5 +1,6 @@
 package application.U5D8.services;
 
+import application.U5D8.entities.Blog;
 import application.U5D8.entities.User;
 import application.U5D8.exceptions.NotUserFoundException;
 import application.U5D8.repositories.UserRepository;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UsersService {
@@ -35,6 +38,11 @@ public class UsersService {
     public Page<User> getAllUser(int page , int size , String order){
         Pageable pageable = PageRequest.of(page, size , Sort.by(order));
         return userRepo.findAll(pageable);
+    }
+
+    public List<Blog> getUserBlog(int id){
+        User found = findById(id);
+        return found.getBlogs();
     }
 
 

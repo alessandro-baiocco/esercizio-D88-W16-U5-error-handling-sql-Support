@@ -1,5 +1,6 @@
 package application.U5D8.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,7 +21,8 @@ public class User {
         private String email;
         private LocalDate dataDiNascita;
         private String userPicture;
-        @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+        @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true , mappedBy = "utente")
+        @JsonIgnore
         private List<Blog> blogs;
 
         @Override
