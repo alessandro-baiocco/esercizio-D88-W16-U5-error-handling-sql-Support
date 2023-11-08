@@ -4,6 +4,9 @@ import application.U5D8.entities.Blog;
 import application.U5D8.exceptions.NotBlogFoundException;
 import application.U5D8.repositories.BlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -27,8 +30,9 @@ public class BlogService {
     }
 
 
-    public List<Blog> getAllBlogs(){
-        return blogRepo.findAll();
+    public Page<Blog> getAllBlogs(int page , int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return blogRepo.findAll(pageable);
     }
 
 

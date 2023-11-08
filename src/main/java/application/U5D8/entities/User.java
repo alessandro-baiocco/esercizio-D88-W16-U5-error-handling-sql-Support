@@ -20,7 +20,7 @@ public class User {
         private String email;
         private LocalDate dataDiNascita;
         private String userPicture;
-        @OneToMany
+        @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
         private List<Blog> blogs;
 
         @Override

@@ -3,9 +3,11 @@ package application.U5D8.controllers;
 import application.U5D8.entities.Blog;
 import application.U5D8.services.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 
@@ -18,8 +20,9 @@ public class BlogController {
 
 
     @GetMapping("")
-    public List<Blog> getAllUser(){
-        return blogService.getAllBlogs();
+    public Page<Blog> getAllBlog(@RequestParam(defaultValue = "0")int page ,
+                                 @RequestParam(defaultValue = "10")int size){
+        return blogService.getAllBlogs(page , size);
     }
 
     @GetMapping("/{id}")
@@ -29,7 +32,7 @@ public class BlogController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public Blog saveUser(@RequestBody Blog body){
+    public Blog saveBlog(@RequestBody Blog body){
         return blogService.save(body);
     }
 
